@@ -1,5 +1,7 @@
 package com.grosner.viewholderinflater.core.writer;
 
+import com.grosner.viewholderinflater.core.Classes;
+import com.grosner.viewholderinflater.core.VHInflatableViewHolder;
 import com.grosner.viewholderinflater.core.VHManager;
 import com.grosner.viewholderinflater.core.VHView;
 import com.squareup.javawriter.JavaWriter;
@@ -23,6 +25,8 @@ public class ViewWriter implements Writer {
 
     int resourceId;
 
+    boolean isInflatableView = false;
+
 
     public ViewWriter(VHManager manager, Element element) {
         this.element = element;
@@ -30,25 +34,36 @@ public class ViewWriter implements Writer {
         elementClassName = element.asType().toString();
 
         VHView vhView = element.getAnnotation(VHView.class);
-        resourceId = vhView.value();
+        if (vhView != null) {
+            resourceId = vhView.value();
+        } else {
+            VHInflatableViewHolder vhInflatableViewHolder = element.getAnnotation(VHInflatableViewHolder.class);
+            if (vhInflatableViewHolder != null) {
+                resourceId = vhInflatableViewHolder.value();
+                isInflatableView = true;
+            }
+        }
     }
 
     @Override
     public void write(JavaWriter javaWriter) throws IOException {
         String elementName = element.getSimpleName().toString();
 
-        Object resource = resourceId;
-        String statement = "inflatable.%1s = (%1s) view.findViewById(";
-        if(resourceId == 0) {
-            resource = String.format("view.getResources().getIdentifier(\"%1s\", \"id\", view.getContext().getPackageName())", elementName);
-            statement+="%1s";
+        String statement = "inflatable.%1s = ";
+        if (!isInflatableView) {
+            statement += "(%1s) view.findViewById(";
         } else {
-            statement+="%1d";
+            statement += Classes.VH_INFLATER + ".inflate(%1s.class, view, ";
         }
-        statement+=")";
+        if (resourceId == 0) {
+            statement += String.format("view.getResources().getIdentifier(\"%1s\", \"id\", view.getContext().getPackageName())", elementName);
+        } else {
+            statement += resourceId;
+        }
+        statement += ")";
 
 
         javaWriter.emitStatement(statement, elementName,
-                elementClassName, resource);
+                elementClassName);
     }
 }

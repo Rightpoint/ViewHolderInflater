@@ -12,4 +12,6 @@ public class Classes {
     public static final String VIEW = "android.view.View";
 
     public static final String VH_INFLATABLE_DEFINITION = VH_PACKAGE_NAME + ".VHInflatableDefinition";
+
+    public static final String VH_INFLATER = VH_PACKAGE_NAME + ".ViewHolderInflater";
 }
