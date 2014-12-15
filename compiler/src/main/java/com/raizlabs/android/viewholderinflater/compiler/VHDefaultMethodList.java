@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.util.List;
 
 import javax.lang.model.element.ExecutableElement;
-import javax.lang.model.element.VariableElement;
 
 /**
  * Author: andrewgrosner
@@ -96,7 +95,13 @@ public class VHDefaultMethodList {
                     "\n})", Classes.ON_TOUCH_LISTENER, Classes.MOTION_EVENT,
                     "inflatable", methodStatement);
         } else if(methodName.equals(ON_LONG_CLICK)) {
-
+            String methodStatement = VHUtils.getMethodStatement(executable, "v");
+            javaWriter.emitStatement(viewElementName + ".setOnLongClickListener(" +
+                    "\nnew %1s(){" +
+                    "\n\tpublic boolean onLongClick(View v) {" +
+                        "\n\t\treturn %1s.%1s;" +
+                    "\n\t}" +
+                    "\n})", Classes.ON_LONG_CLICK_LISTENER, "inflatable", methodStatement);
         }
     }
 }

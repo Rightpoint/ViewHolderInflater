@@ -21,7 +21,7 @@ public class Classes {
 
     public static final String VH_ADAPTER = INTERNAL_PACKAGE_NAME + ".ViewHolderAdapter";
 
-    public static final String ON_CLICK_LISTENER = "android.view.View.OnClickListener";
+    public static final String ON_CLICK_LISTENER = VIEW + ".OnClickListener";
 
     public static final String ADAPTER_VIEW = "android.widget.AdapterView";
 
@@ -31,7 +31,9 @@ public class Classes {
 
     public static final String ON_CHECKED_CHANGE_LISTENER = COMPOUND_BUTTON + ".OnCheckedChangeListener";
 
-    public static final String ON_TOUCH_LISTENER = "android.view.View.OnTouchListener";
+    public static final String ON_TOUCH_LISTENER = VIEW + ".OnTouchListener";
 
     public static final String MOTION_EVENT = "android.view.MotionEvent";
+
+    public static final String ON_LONG_CLICK_LISTENER = VIEW + ".OnLongClickListener";
 }
