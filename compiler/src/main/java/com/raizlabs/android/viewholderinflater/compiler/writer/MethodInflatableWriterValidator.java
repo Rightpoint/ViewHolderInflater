@@ -10,7 +10,7 @@ import com.raizlabs.android.viewholderinflater.compiler.VHManager;
 public class MethodInflatableWriterValidator implements Validator<MethodInflatableWriter> {
     @Override
     public boolean validate(VHManager vhManager, MethodInflatableWriter methodInflatableWriter) {
-        boolean valid = false;
+        boolean valid = true;
 
         if(methodInflatableWriter.mMethodList.isEmpty()) {
             vhManager.logError("%1s must contain at least one @VHMethod", methodInflatableWriter.elementClassName);

@@ -25,6 +25,9 @@ public class MainActivity extends Activity {
         View contentView = ViewHolderInflater.inflate(this, inflatable, R.layout.activity_main);
         setContentView(contentView);
         ViewHolderInflater.connectViews(this, contentView);
+
+        ExampleRecyclerVH exampleRecyclerVH = new ExampleRecyclerVH(contentView);
+        ViewHolderInflater.inflate(contentView, exampleRecyclerVH);
     }
 
 
