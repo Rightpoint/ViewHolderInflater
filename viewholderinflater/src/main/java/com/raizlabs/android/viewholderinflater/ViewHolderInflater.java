@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.raizlabs.android.viewholderinflater.internal.VHInflatableDefinition;
+import com.raizlabs.android.viewholderinflater.internal.VHMethodInflatableDefinition;
 import com.raizlabs.android.viewholderinflater.internal.ViewHolderAdapter;
 
 /**
@@ -100,6 +101,18 @@ public class ViewHolderInflater {
         return vhClass;
     }
 
+    /**
+     * Connects the view with the specified class using a {@link com.raizlabs.android.viewholderinflater.internal.VHMethodInflatableDefinition}
+     * to set the method calls.
+     *
+     * @param methodInflatable The class with the {@link com.raizlabs.android.viewholderinflater.core.VHMethodInflatable} annotation
+     * @param view             The parent view to retrieve views to connect from
+     */
+    @SuppressWarnings("unchecked")
+    public static void connectViews(Object methodInflatable, View view) {
+        getMethodInflatableDefinition(methodInflatable.getClass()).connect(view, methodInflatable);
+    }
+
     public static VHInflatableDefinition getInflatableDefinition(Class<?> inflatableClass) {
         VHInflatableDefinition vhInflatableDefinition = getViewHolderAdapter().getVHInflatableDefinition(inflatableClass);
         if (vhInflatableDefinition == null) {
@@ -107,6 +120,15 @@ public class ViewHolderInflater {
                     "you forget the @VHInflatable annotation?");
         }
         return vhInflatableDefinition;
+    }
+
+    public static VHMethodInflatableDefinition getMethodInflatableDefinition(Class<?> methodInflatableClass) {
+        VHMethodInflatableDefinition vhMethodInflatableDefinition = getViewHolderAdapter().getVHMethodInflatableDefinition(methodInflatableClass);
+        if (vhMethodInflatableDefinition == null) {
+            throw new RuntimeException("No VHInflatableDefinition found for: " + methodInflatableClass + ". Did" +
+                    "you forget the @VHMethodInflatable annotation?");
+        }
+        return vhMethodInflatableDefinition;
     }
 
 }

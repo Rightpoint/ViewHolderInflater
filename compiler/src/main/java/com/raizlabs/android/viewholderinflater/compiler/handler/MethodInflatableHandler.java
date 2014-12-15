@@ -30,6 +30,7 @@ public class MethodInflatableHandler extends BaseHandler {
             JavaWriter javaWriter = new JavaWriter(vhManager.getFiler().createSourceFile(methodInflatableWriter.getSourceFileName()).openWriter());
 
             methodInflatableWriter.write(javaWriter);
+            vhManager.addMethodInflatableWriter(methodInflatableWriter);
 
             javaWriter.close();
         } catch (IOException e) {

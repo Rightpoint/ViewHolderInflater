@@ -5,6 +5,7 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.raizlabs.android.viewholderinflater.compiler.handler.Handler;
 import com.raizlabs.android.viewholderinflater.compiler.writer.InflatableWriter;
+import com.raizlabs.android.viewholderinflater.compiler.writer.MethodInflatableWriter;
 import com.squareup.javawriter.JavaWriter;
 
 import java.io.IOException;
@@ -34,6 +35,8 @@ public class VHManager {
 
     private Map<String, InflatableWriter> mInflatableMap = Maps.newHashMap();
 
+    private Map<String, MethodInflatableWriter> mMethodInflatableMap = Maps.newHashMap();
+
     private Map<String, List<String>> mInflatableNameList = Maps.newHashMap();
 
     public VHManager(ProcessingEnvironment processingEnvironment) {
@@ -48,6 +51,10 @@ public class VHManager {
 
     public void addInflatableWriter(InflatableWriter inflatableWriter) {
         mInflatableMap.put(inflatableWriter.getSourceFileName(), inflatableWriter);
+    }
+
+    public void addMethodInflatableWriter(MethodInflatableWriter methodInflatableWriter) {
+        mMethodInflatableMap.put(methodInflatableWriter.getSourceFileName(), methodInflatableWriter);
     }
 
     public void addInflatableName(String inflatableName, String viewName) {
@@ -75,12 +82,15 @@ public class VHManager {
             try {
                 JavaWriter javaWriter = new JavaWriter(getFiler().createSourceFile(Classes.INTERNAL_PACKAGE_NAME + ".ViewHolderAdapter$HolderAdapter").openWriter());
                 javaWriter.emitPackage(Classes.VH_PACKAGE_NAME);
-                javaWriter.emitImports(Map.class.getCanonicalName(), HashMap.class.getCanonicalName(), Classes.VH_ADAPTER, Classes.VH_INFLATABLE_DEFINITION);
+                javaWriter.emitImports(Map.class.getCanonicalName(), HashMap.class.getCanonicalName(),
+                        Classes.VH_ADAPTER, Classes.VH_INFLATABLE_DEFINITION, Classes.VH_METHOD_INFLATABLE_DEFINITION);
 
                 javaWriter.beginType("ViewHolderAdapter$HolderAdapter", "class", Sets.newHashSet(Modifier.FINAL), "ViewHolderAdapter");
 
 
                 javaWriter.emitField("Map<Class<?>, VHInflatableDefinition>", "mMap",
+                        Sets.newHashSet(Modifier.PRIVATE, Modifier.FINAL), "new HashMap<>()");
+                javaWriter.emitField("Map<Class<?>, VHMethodInflatableDefinition>", "mMethodMap",
                         Sets.newHashSet(Modifier.PRIVATE, Modifier.FINAL), "new HashMap<>()");
 
                 javaWriter.beginConstructor(new HashSet<Modifier>());
@@ -92,6 +102,13 @@ public class VHManager {
                             inflatableWriter.getSourceFileName());
                 }
 
+                writers = mMethodInflatableMap.keySet();
+                for(String writer: writers) {
+                    MethodInflatableWriter methodInflatableWriter = mMethodInflatableMap.get(writer);
+                    javaWriter.emitStatement("mMethodMap.put(%1s.class, new %1s())", methodInflatableWriter.getFQCN(),
+                            methodInflatableWriter.getSourceFileName());
+                }
+
                 javaWriter.endConstructor();
 
                 javaWriter.emitAnnotation(Override.class);
@@ -100,6 +117,12 @@ public class VHManager {
 
                 javaWriter.emitStatement("return (%1s) mMap.get(clazz)", "VHClass");
 
+                javaWriter.endMethod();
+
+                javaWriter.emitEmptyLine().emitAnnotation(Override.class);
+                javaWriter.beginMethod("<VHMethodClass extends VHMethodInflatableDefinition> VHMethodClass", "getVHMethodInflatableDefinition",
+                        Sets.newHashSet(Modifier.PUBLIC, Modifier.FINAL), "Class<?>", "clazz");
+                javaWriter.emitStatement("return (%1s) mMethodMap.get(clazz)", "VHMethodClass");
                 javaWriter.endMethod();
 
                 javaWriter.endType();

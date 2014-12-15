@@ -52,7 +52,7 @@ public class MainActivity extends Activity {
 
     }
 
-    @VHMethod
+    @VHMethod(R.id.checkBox)
     void onClickCheckBox() {
 
     }
@@ -69,6 +69,11 @@ public class MainActivity extends Activity {
 
     @VHMethod
     boolean onTouchCheckBox() {
+        return true;
+    }
 
+    @VHMethod
+    boolean onLongClickCheckBox() {
+        return true;
     }
 }
