@@ -6,6 +6,7 @@ import com.raizlabs.android.viewholderinflater.compiler.Classes;
 import com.raizlabs.android.viewholderinflater.compiler.VHDefaultMethodList;
 import com.raizlabs.android.viewholderinflater.compiler.VHManager;
 import com.raizlabs.android.viewholderinflater.core.VHMethod;
+import com.raizlabs.android.viewholderinflater.core.VHMethodGroup;
 import com.squareup.javawriter.JavaWriter;
 
 import java.io.IOException;
@@ -33,7 +34,8 @@ public class MethodInflatableWriter extends BaseSourceWriter {
         List<? extends Element> enclosed = element.getEnclosedElements();
         MethodWriterValidator validator = new MethodWriterValidator();
         for (Element enclosedElement : enclosed) {
-            if (enclosedElement.getAnnotation(VHMethod.class) != null) {
+            if (enclosedElement.getAnnotation(VHMethod.class) != null
+                    || enclosedElement.getAnnotation(VHMethodGroup.class) != null) {
                 MethodWriter methodWriter = new MethodWriter(vhManager, enclosedElement, definitionClassName);
                 if(validator.validate(manager, methodWriter)) {
                     mMethodList.add(methodWriter);

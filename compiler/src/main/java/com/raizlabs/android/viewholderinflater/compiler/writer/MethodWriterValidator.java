@@ -18,14 +18,28 @@ public class MethodWriterValidator implements Validator<MethodWriter>{
             valid = false;
         }
 
-        if(VHDefaultMethodList.containsMethod(methodWriter.viewElementName)) {
-            vhManager.logError("Method %1s must not be named the same as any method in VHDefaultMethodList", methodWriter.viewElementName);
+        if(!methodWriter.isMethodGroup && VHDefaultMethodList.containsMethod(methodWriter.viewElementName)) {
+            vhManager.logError("Method %1s must not be named the same as any method in VHDefaultMethodList unless its a @VHMethodGroup",
+                    methodWriter.element.getSimpleName());
             valid = false;
         }
 
-        if (methodWriter.resourceId < 0) {
-            vhManager.logError("The MethodWriter %1s must have a valid resource id", methodWriter.element.getSimpleName());
+        if (!methodWriter.isMethodGroup && methodWriter.resourceId < 0) {
+            vhManager.logError("The Method %1s must have a valid resource id", methodWriter.element.getSimpleName());
             valid = false;
+        } else if(methodWriter.isMethodGroup) {
+            if((methodWriter.resourceIds == null || methodWriter.resourceIds.length == 0)) {
+                vhManager.logError("The Method group %1s must have at least one resource id", methodWriter.element.getSimpleName());
+                valid = false;
+            } else {
+                for(int resourceId: methodWriter.resourceIds) {
+                    if(resourceId < 0) {
+                        vhManager.logError("The Method %1s must have a valid resource id. Found %1d", methodWriter.element.getSimpleName(), resourceId);
+                        valid = false;
+                        break;
+                    }
+                }
+            }
         }
 
 

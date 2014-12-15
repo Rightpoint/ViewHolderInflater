@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.raizlabs.android.viewholderinflater.ViewHolderInflater;
 import com.raizlabs.android.viewholderinflater.core.VHMethod;
+import com.raizlabs.android.viewholderinflater.core.VHMethodGroup;
 import com.raizlabs.android.viewholderinflater.core.VHMethodInflatable;
 
 
@@ -92,6 +93,11 @@ public class MainActivity extends Activity {
 
     @VHMethod
     void onCreateCheckBox(CheckBox checkBox) {
+
+    }
+
+    @VHMethodGroup({R.id.textView, R.id.checkBox})
+    void onCreate(View view) {
 
     }
 }
