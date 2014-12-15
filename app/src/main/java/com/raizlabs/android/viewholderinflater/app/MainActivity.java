@@ -21,7 +21,9 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         SimpleInflatable inflatable = new SimpleInflatable();
-        setContentView(ViewHolderInflater.inflate(this, inflatable, R.layout.activity_main));
+        View contentView = ViewHolderInflater.inflate(this, inflatable, R.layout.activity_main);
+        setContentView(contentView);
+        ViewHolderInflater.connectViews(this, contentView);
     }
 
 
@@ -45,6 +47,11 @@ public class MainActivity extends Activity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @VHMethod
+    void onCreateTextView(TextView textView) {
+
     }
 
     @VHMethod

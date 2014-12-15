@@ -26,8 +26,10 @@ public class VHDefaultMethodList {
 
     public static final String ON_LONG_CLICK = "onLongClick";
 
+    public static final String ON_CREATE = "onCreate";
+
     private static List<String> mMethods = Lists.newArrayList(ON_CLICK, ON_ITEM_CLICK, ON_CHECKED_CHANGED,
-            ON_TOUCH, ON_LONG_CLICK);
+            ON_TOUCH, ON_LONG_CLICK, ON_CREATE);
 
     public static String getResolvedMethodName(String methodName) {
         for(String method: mMethods) {
@@ -58,7 +60,6 @@ public class VHDefaultMethodList {
     }
 
     public static void writeDefaultMethodImpl(JavaWriter javaWriter, String viewElementName, ExecutableElement executable, String methodName) throws IOException {
-        String methodElementName = executable.getSimpleName().toString();
         if(methodName.equals(ON_CLICK)) {
             String methodStatement = VHUtils.getMethodStatement(executable, "v");
             javaWriter.emitStatement(viewElementName + ".setOnClickListener(" +
@@ -102,6 +103,8 @@ public class VHDefaultMethodList {
                         "\n\t\treturn %1s.%1s;" +
                     "\n\t}" +
                     "\n})", Classes.ON_LONG_CLICK_LISTENER, "inflatable", methodStatement);
+        } else if(methodName.equals(ON_CREATE)) {
+            javaWriter.emitStatement("inflatable." + VHUtils.getMethodStatement(executable, viewElementName));
         }
     }
 }

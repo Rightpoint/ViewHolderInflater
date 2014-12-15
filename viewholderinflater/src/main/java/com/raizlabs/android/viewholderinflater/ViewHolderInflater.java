@@ -31,6 +31,17 @@ public class ViewHolderInflater {
     }
 
     /**
+     * Inflates the already created parent view into the inflatable class.
+     *
+     * @param parentView The parent view of the view holder
+     * @param inflatable The object that contains the {@link com.raizlabs.android.viewholderinflater.core.VHInflatable}
+     */
+    @SuppressWarnings("unchecked")
+    public static void inflate(View parentView, Object inflatable) {
+        getInflatableDefinition(inflatable.getClass()).inflate(parentView, inflatable);
+    }
+
+    /**
      * Inflates the View based on the layoutResId and uses a {@link com.raizlabs.android.viewholderinflater.internal.VHInflatableDefinition}
      * to fill in the views. If the inflatable is a {@link android.view.ViewGroup},
      * we will attach it to the root automatically.
@@ -48,7 +59,6 @@ public class ViewHolderInflater {
         }
         View view = LayoutInflater.from(context).inflate(layoutResId, root);
 
-        // TODO: connect the view
         getInflatableDefinition(inflatable.getClass()).inflate(view, inflatable);
 
         return view;
