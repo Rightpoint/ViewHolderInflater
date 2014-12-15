@@ -66,4 +66,9 @@ public class MainActivity extends Activity {
     void onCheckedChangedCheckBox(CompoundButton button, boolean isChecked) {
 
     }
+
+    @VHMethod
+    boolean onTouchCheckBox() {
+
+    }
 }

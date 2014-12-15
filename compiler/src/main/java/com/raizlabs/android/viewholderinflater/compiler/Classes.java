@@ -30,4 +30,8 @@ public class Classes {
     public static final String COMPOUND_BUTTON = "android.widget.CompoundButton";
 
     public static final String ON_CHECKED_CHANGE_LISTENER = COMPOUND_BUTTON + ".OnCheckedChangeListener";
+
+    public static final String ON_TOUCH_LISTENER = "android.view.View.OnTouchListener";
+
+    public static final String MOTION_EVENT = "android.view.MotionEvent";
 }

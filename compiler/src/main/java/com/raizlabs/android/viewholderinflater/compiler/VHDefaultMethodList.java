@@ -87,7 +87,14 @@ public class VHDefaultMethodList {
                     "\n})", Classes.COMPOUND_BUTTON, Classes.ON_CHECKED_CHANGE_LISTENER,
                     Classes.COMPOUND_BUTTON, "inflatable", methodStatement);
         } else if(methodName.equals(ON_TOUCH)) {
-
+            String methodStatement = VHUtils.getMethodStatement(executable, "v", "event");
+            javaWriter.emitStatement(viewElementName + ".setOnTouchListener(" +
+                    "\nnew %1s(){" +
+                    "\n\tpublic boolean onTouch(View v, %1s event) {" +
+                        "\n\t\treturn %1s.%1s;" +
+                    "\n\t}" +
+                    "\n})", Classes.ON_TOUCH_LISTENER, Classes.MOTION_EVENT,
+                    "inflatable", methodStatement);
         } else if(methodName.equals(ON_LONG_CLICK)) {
 
         }
