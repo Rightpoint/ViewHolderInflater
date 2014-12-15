@@ -15,7 +15,7 @@ import com.raizlabs.android.viewholderinflater.core.VHView;
 @VHInflatable
 public class SimpleInflatable {
 
-    @VHView(R.id.textView)
+    @VHView(value = R.id.textView, required = true)
     TextView textView;
 
     @VHView

@@ -59,6 +59,10 @@ public class VHDefaultMethodList {
         return methodName;
     }
 
+    public static boolean containsMethod(String method) {
+        return mMethods.contains(method);
+    }
+
     public static void writeDefaultMethodImpl(JavaWriter javaWriter, String viewElementName, ExecutableElement executable, String methodName) throws IOException {
         if(methodName.equals(ON_CLICK)) {
             String methodStatement = VHUtils.getMethodStatement(executable, "v");

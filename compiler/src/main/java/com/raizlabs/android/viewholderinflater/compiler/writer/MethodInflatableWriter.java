@@ -23,7 +23,7 @@ import javax.lang.model.element.Modifier;
  */
 public class MethodInflatableWriter extends BaseSourceWriter {
 
-    private List<MethodWriter> mMethodList = Lists.newArrayList();
+    List<MethodWriter> mMethodList = Lists.newArrayList();
 
     public MethodInflatableWriter(VHManager vhManager, Element element, String packageName) {
         super(vhManager, element, packageName);
@@ -31,9 +31,13 @@ public class MethodInflatableWriter extends BaseSourceWriter {
 
 
         List<? extends Element> enclosed = element.getEnclosedElements();
+        MethodWriterValidator validator = new MethodWriterValidator();
         for (Element enclosedElement : enclosed) {
             if (enclosedElement.getAnnotation(VHMethod.class) != null) {
-                mMethodList.add(new MethodWriter(vhManager, enclosedElement, definitionClassName));
+                MethodWriter methodWriter = new MethodWriter(vhManager, enclosedElement, definitionClassName);
+                if(validator.validate(manager, methodWriter)) {
+                    mMethodList.add(methodWriter);
+                }
             }
         }
     }

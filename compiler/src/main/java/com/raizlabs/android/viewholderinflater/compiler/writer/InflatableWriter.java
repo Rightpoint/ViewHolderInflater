@@ -18,13 +18,11 @@ import javax.lang.model.element.Modifier;
 
 /**
  * Author: andrewgrosner
- * Contributors: { }
- * Description:
+ * Description: Writes an $InflatableDefinition file that contains code that injects views into a view holder.
  */
 public class InflatableWriter extends BaseSourceWriter {
 
-
-    private List<ViewWriter> mViews = Lists.newArrayList();
+    public List<ViewWriter> mViews = Lists.newArrayList();
 
     boolean hasDefaultConstructor = false;
 
@@ -33,10 +31,14 @@ public class InflatableWriter extends BaseSourceWriter {
         setDefinitionClassName("$InflatableDefinition");
 
         List<? extends Element> elements = element.getEnclosedElements();
+        ViewWriterValidator viewWriterValidator = new ViewWriterValidator();
         for (Element innerElement : elements) {
             if (innerElement.getAnnotation(VHView.class) != null
                     || innerElement.getAnnotation(VHInflatableViewHolder.class) != null) {
-                mViews.add(new ViewWriter(vhManager, innerElement));
+                ViewWriter viewWriter = new ViewWriter(vhManager, innerElement);
+                if (viewWriterValidator.validate(manager, viewWriter)) {
+                    mViews.add(viewWriter);
+                }
             } else if (innerElement.getKind() == ElementKind.CONSTRUCTOR
                     && !innerElement.getModifiers().contains(Modifier.PRIVATE)) {
                 ExecutableElement executableElement = ((ExecutableElement) innerElement);

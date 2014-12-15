@@ -1,6 +1,7 @@
 package com.raizlabs.android.viewholderinflater.compiler.handler;
 
 import com.raizlabs.android.viewholderinflater.compiler.VHManager;
+import com.raizlabs.android.viewholderinflater.compiler.writer.Validator;
 
 import java.lang.annotation.Annotation;
 import java.util.Set;
@@ -12,12 +13,24 @@ import javax.lang.model.element.Element;
  * Author: andrewgrosner
  * Description:
  */
-public abstract class BaseHandler implements Handler {
+public abstract class BaseHandler<ValidatorClass> implements Handler, Validator<ValidatorClass> {
 
     private Class<? extends Annotation> mAnnotationClass;
 
+    private Validator<ValidatorClass> mValidator;
+
+    protected abstract Validator<ValidatorClass> newValidator();
+
     public BaseHandler(Class<? extends Annotation> annotationClass) {
         mAnnotationClass = annotationClass;
+    }
+
+    @Override
+    public boolean validate(VHManager vhManager, ValidatorClass validatorClass) {
+        if(mValidator == null) {
+            mValidator = newValidator();
+        }
+        return mValidator.validate(vhManager, validatorClass);
     }
 
     @Override
