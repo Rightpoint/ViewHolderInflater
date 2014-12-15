@@ -1,10 +1,9 @@
-package com.raizlabs.android.viewholderinflater;
+package com.raizlabs.android.viewholderinflater.internal;
 
 import com.raizlabs.android.viewholderinflater.internal.VHInflatableDefinition;
 
 /**
  * Author: andrewgrosner
- * Contributors: { }
  * Description:
  */
 public abstract class ViewHolderAdapter {

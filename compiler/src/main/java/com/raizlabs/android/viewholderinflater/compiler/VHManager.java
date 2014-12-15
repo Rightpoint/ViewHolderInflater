@@ -19,6 +19,7 @@ import javax.annotation.processing.ProcessingEnvironment;
 import javax.annotation.processing.RoundEnvironment;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.Modifier;
+import javax.tools.Diagnostic;
 
 /**
  * Author: andrewgrosner
@@ -32,6 +33,8 @@ public class VHManager {
     private List<Handler> mHandlers = Lists.newArrayList();
 
     private Map<String, InflatableWriter> mInflatableMap = Maps.newHashMap();
+
+    private Map<String, List<String>> mInflatableNameList = Maps.newHashMap();
 
     public VHManager(ProcessingEnvironment processingEnvironment) {
         mEnvironment = processingEnvironment;
@@ -47,6 +50,22 @@ public class VHManager {
         mInflatableMap.put(inflatableWriter.getSourceFileName(), inflatableWriter);
     }
 
+    public void addInflatableName(String inflatableName, String viewName) {
+        List<String> nameList = mInflatableNameList.get(inflatableName);
+        if(nameList == null) {
+            nameList = Lists.newArrayList();
+            mInflatableNameList.put(inflatableName, nameList);
+        }
+
+        if(!nameList.contains(viewName)) {
+            nameList.add(viewName);
+        }
+    }
+
+    public boolean hasInflatableName(String inflatableName, String viewName) {
+        return (mInflatableNameList.get(inflatableName) != null && mInflatableNameList.get(inflatableName).contains(viewName));
+    }
+
     public void handle(RoundEnvironment roundEnv) {
         for (Handler handler : mHandlers) {
             handler.handle(this, roundEnv);
@@ -54,9 +73,9 @@ public class VHManager {
 
         if(roundEnv.processingOver()) {
             try {
-                JavaWriter javaWriter = new JavaWriter(getFiler().createSourceFile("com.grosner.viewholderinflater.ViewHolderAdapter$HolderAdapter").openWriter());
-                javaWriter.emitPackage("com.grosner.viewholderinflater");
-                javaWriter.emitImports(Map.class.getCanonicalName(), HashMap.class.getCanonicalName());
+                JavaWriter javaWriter = new JavaWriter(getFiler().createSourceFile(Classes.INTERNAL_PACKAGE_NAME + ".ViewHolderAdapter$HolderAdapter").openWriter());
+                javaWriter.emitPackage(Classes.VH_PACKAGE_NAME);
+                javaWriter.emitImports(Map.class.getCanonicalName(), HashMap.class.getCanonicalName(), Classes.VH_ADAPTER, Classes.VH_INFLATABLE_DEFINITION);
 
                 javaWriter.beginType("ViewHolderAdapter$HolderAdapter", "class", Sets.newHashSet(Modifier.FINAL), "ViewHolderAdapter");
 
@@ -98,5 +117,9 @@ public class VHManager {
 
     public Filer getFiler() {
         return mEnvironment.getFiler();
+    }
+
+    public void logError(String s, Object...args) {
+        mEnvironment.getMessager().printMessage(Diagnostic.Kind.ERROR, String.format(s, args));
     }
 }

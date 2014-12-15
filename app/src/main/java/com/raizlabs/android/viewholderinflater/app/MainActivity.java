@@ -4,10 +4,12 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.raizlabs.android.viewholderinflater.ViewHolderInflater;
-import com.grosner.viewholderinflater.app.R;
 import com.raizlabs.android.viewholderinflater.core.VHMethod;
 import com.raizlabs.android.viewholderinflater.core.VHMethodInflatable;
 
@@ -47,6 +49,21 @@ public class MainActivity extends Activity {
 
     @VHMethod
     void onClickTextView(TextView textView) {
+
+    }
+
+    @VHMethod
+    void onClickCheckBox() {
+
+    }
+
+    @VHMethod
+    void onItemClickListView(AdapterView<?> adapterView, View v, int position, long id) {
+
+    }
+
+    @VHMethod
+    void onCheckedChangedCheckBox(CompoundButton button, boolean isChecked) {
 
     }
 }

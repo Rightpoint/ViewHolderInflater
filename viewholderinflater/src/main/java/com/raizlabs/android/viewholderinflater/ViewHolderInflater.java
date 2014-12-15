@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.raizlabs.android.viewholderinflater.internal.VHInflatableDefinition;
+import com.raizlabs.android.viewholderinflater.internal.ViewHolderAdapter;
 
 /**
  * Author: andrewgrosner
@@ -19,7 +20,7 @@ public class ViewHolderInflater {
     public static ViewHolderAdapter getViewHolderAdapter() {
         if (viewHolderAdapter == null) {
             try {
-                viewHolderAdapter = (ViewHolderAdapter) Class.forName("com.raizlabs.android.viewholderinflater.ViewHolderAdapter$HolderAdapter").newInstance();
+                viewHolderAdapter = (ViewHolderAdapter) Class.forName("com.raizlabs.android.viewholderinflater.internal.ViewHolderAdapter$HolderAdapter").newInstance();
             } catch (Throwable e) {
                 throw new RuntimeException(e);
             }

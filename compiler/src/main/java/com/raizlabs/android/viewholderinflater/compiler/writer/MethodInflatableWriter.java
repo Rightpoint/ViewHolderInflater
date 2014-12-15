@@ -30,7 +30,7 @@ public class MethodInflatableWriter extends BaseSourceWriter {
         List<? extends Element> enclosed = element.getEnclosedElements();
         for(Element enclosedElement : enclosed) {
             if(enclosedElement.getAnnotation(VHMethod.class) != null) {
-                mMethodList.add(new MethodWriter(vhManager, enclosedElement));
+                mMethodList.add(new MethodWriter(vhManager, enclosedElement, definitionClassName));
             }
         }
     }
@@ -40,7 +40,7 @@ public class MethodInflatableWriter extends BaseSourceWriter {
 
         javaWriter.emitAnnotation(Override.class);
         javaWriter.beginMethod("void", "connect", Sets.newHashSet(Modifier.PUBLIC, Modifier.FINAL),
-                "View", "view", elementClassName, "inflatable");
+                "View", "view", "final " + elementClassName, "inflatable");
 
         for(MethodWriter methodWriter: mMethodList) {
             methodWriter.write(javaWriter);
