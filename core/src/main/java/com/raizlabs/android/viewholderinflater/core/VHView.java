@@ -18,4 +18,9 @@ public @interface VHView {
      * @return The resource ID of the view to use for the field.
      */
     int value() default 0;
+
+    /**
+     * @return if true, a
+     */
+    boolean required() default false;
 }

@@ -21,6 +21,8 @@ public class Classes {
 
     public static final String VH_ADAPTER = INTERNAL_PACKAGE_NAME + ".ViewHolderAdapter";
 
+    public static final String VH_UTILS = INTERNAL_PACKAGE_NAME + ".VHUtils";
+
     public static final String ON_CLICK_LISTENER = VIEW + ".OnClickListener";
 
     public static final String ADAPTER_VIEW = "android.widget.AdapterView";

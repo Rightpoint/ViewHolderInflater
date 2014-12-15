@@ -29,6 +29,8 @@ public class MethodWriter implements Writer {
 
     String methodInflatableName;
 
+    boolean required;
+
     public MethodWriter(VHManager vhManager, Element element, String methodInflatableName) {
         this.element = (ExecutableElement) element;
         this.methodInflatableName = methodInflatableName;
@@ -37,6 +39,7 @@ public class MethodWriter implements Writer {
         VHMethod vhMethod = element.getAnnotation(VHMethod.class);
         if(vhMethod != null) {
             resourceId = vhMethod.value();
+            required = vhMethod.required();
         }
         methodName = VHDefaultMethodList.getMethodName(element.getSimpleName().toString());
         viewElementName = VHDefaultMethodList.getResolvedMethodName(element.getSimpleName().toString());
@@ -45,14 +48,14 @@ public class MethodWriter implements Writer {
     @Override
     public void write(JavaWriter javaWriter) throws IOException {
         if(!manager.hasInflatableName(methodInflatableName, viewElementName)) {
-            String instantiationStatement = "View %1sview = view.findViewById(";
+            String instantiationStatement = "View %1sview = VHUtils.findViewById(view, ";
             if (resourceId == 0) {
                 instantiationStatement += String.format("view.getResources().getIdentifier(\"%1s\", \"id\", view.getContext().getPackageName())", viewElementName);
             } else {
                 instantiationStatement += resourceId;
             }
-            instantiationStatement += ")";
-            javaWriter.emitStatement(instantiationStatement, viewElementName);
+            instantiationStatement += ",%1s)";
+            javaWriter.emitStatement(instantiationStatement, viewElementName, required);
             manager.addInflatableName(methodInflatableName, viewElementName);
         }
 

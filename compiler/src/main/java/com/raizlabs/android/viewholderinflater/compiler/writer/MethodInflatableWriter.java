@@ -31,8 +31,8 @@ public class MethodInflatableWriter extends BaseSourceWriter {
 
 
         List<? extends Element> enclosed = element.getEnclosedElements();
-        for(Element enclosedElement : enclosed) {
-            if(enclosedElement.getAnnotation(VHMethod.class) != null) {
+        for (Element enclosedElement : enclosed) {
+            if (enclosedElement.getAnnotation(VHMethod.class) != null) {
                 mMethodList.add(new MethodWriter(vhManager, enclosedElement, definitionClassName));
             }
         }
@@ -55,7 +55,7 @@ public class MethodInflatableWriter extends BaseSourceWriter {
         });
 
         methodWriters.addAll(mMethodList);
-        for(MethodWriter methodWriter: methodWriters) {
+        for (MethodWriter methodWriter : methodWriters) {
             methodWriter.write(javaWriter);
         }
 
@@ -69,8 +69,9 @@ public class MethodInflatableWriter extends BaseSourceWriter {
 
     @Override
     protected String[] getImports() {
-        return new String[] {
-            Classes.VIEW
+        return new String[]{
+                Classes.VIEW,
+                Classes.VH_UTILS
         };
     }
 }

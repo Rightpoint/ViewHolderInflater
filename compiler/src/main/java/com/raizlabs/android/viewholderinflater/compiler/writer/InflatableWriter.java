@@ -3,8 +3,8 @@ package com.raizlabs.android.viewholderinflater.compiler.writer;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.raizlabs.android.viewholderinflater.compiler.Classes;
-import com.raizlabs.android.viewholderinflater.core.VHInflatableViewHolder;
 import com.raizlabs.android.viewholderinflater.compiler.VHManager;
+import com.raizlabs.android.viewholderinflater.core.VHInflatableViewHolder;
 import com.raizlabs.android.viewholderinflater.core.VHView;
 import com.squareup.javawriter.JavaWriter;
 
@@ -33,14 +33,14 @@ public class InflatableWriter extends BaseSourceWriter {
         setDefinitionClassName("$InflatableDefinition");
 
         List<? extends Element> elements = element.getEnclosedElements();
-        for(Element innerElement: elements) {
-            if(innerElement.getAnnotation(VHView.class) != null
+        for (Element innerElement : elements) {
+            if (innerElement.getAnnotation(VHView.class) != null
                     || innerElement.getAnnotation(VHInflatableViewHolder.class) != null) {
                 mViews.add(new ViewWriter(vhManager, innerElement));
-            } else if(innerElement.getKind() == ElementKind.CONSTRUCTOR
+            } else if (innerElement.getKind() == ElementKind.CONSTRUCTOR
                     && !innerElement.getModifiers().contains(Modifier.PRIVATE)) {
                 ExecutableElement executableElement = ((ExecutableElement) innerElement);
-                if(executableElement.getParameters().isEmpty()) {
+                if (executableElement.getParameters().isEmpty()) {
                     hasDefaultConstructor = true;
                 }
             }
@@ -51,7 +51,7 @@ public class InflatableWriter extends BaseSourceWriter {
     @Override
     public void onWriteDefinition(JavaWriter javaWriter) throws IOException {
 
-        if(hasDefaultConstructor) {
+        if (hasDefaultConstructor) {
             javaWriter.emitAnnotation(Override.class);
             javaWriter.beginMethod(elementClassName, "newInstance", Sets.newHashSet(Modifier.PUBLIC, Modifier.FINAL));
             javaWriter.emitStatement("return new %1s()", elementClassName);
@@ -62,7 +62,7 @@ public class InflatableWriter extends BaseSourceWriter {
         javaWriter.emitAnnotation(Override.class);
         javaWriter.beginMethod("void", "inflate", Sets.newHashSet(Modifier.PUBLIC, Modifier.FINAL),
                 "View", "view", elementClassName, "inflatable");
-        for(ViewWriter viewWriter: mViews) {
+        for (ViewWriter viewWriter : mViews) {
             viewWriter.write(javaWriter);
         }
 
@@ -71,8 +71,9 @@ public class InflatableWriter extends BaseSourceWriter {
 
     @Override
     protected String[] getImports() {
-        return new String[] {
-                Classes.VIEW
+        return new String[]{
+                Classes.VIEW,
+                Classes.VH_UTILS
         };
     }
 

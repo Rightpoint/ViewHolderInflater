@@ -27,6 +27,7 @@ public class ViewWriter implements Writer {
 
     boolean isInflatableView = false;
 
+    boolean required = false;
 
     public ViewWriter(VHManager manager, Element element) {
         this.element = element;
@@ -36,6 +37,7 @@ public class ViewWriter implements Writer {
         VHView vhView = element.getAnnotation(VHView.class);
         if (vhView != null) {
             resourceId = vhView.value();
+            required = vhView.required();
         } else {
             VHInflatableViewHolder vhInflatableViewHolder = element.getAnnotation(VHInflatableViewHolder.class);
             if (vhInflatableViewHolder != null) {
@@ -51,7 +53,7 @@ public class ViewWriter implements Writer {
 
         String statement = "inflatable.%1s = ";
         if (!isInflatableView) {
-            statement += "(%1s) view.findViewById(";
+            statement += "(%1s) VHUtils.findViewById(view, ";
         } else {
             statement += Classes.VH_INFLATER + ".inflate(%1s.class, view, ";
         }
@@ -59,6 +61,10 @@ public class ViewWriter implements Writer {
             statement += String.format("view.getResources().getIdentifier(\"%1s\", \"id\", view.getContext().getPackageName())", elementName);
         } else {
             statement += resourceId;
+        }
+        if(!isInflatableView) {
+            statement+=",";
+            statement+=(required?"true" : "false");
         }
         statement += ")";
 

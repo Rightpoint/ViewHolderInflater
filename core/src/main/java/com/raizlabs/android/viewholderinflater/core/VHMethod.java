@@ -19,4 +19,10 @@ public @interface VHMethod {
      * @return The resource ID that this method corresponds to.
      */
     int value() default 0;
+
+    /**
+     * @return if true, a {@link com.raizlabs.android.viewholderinflater.core.VHViewNotFoundException} will
+     * be thrown.
+     */
+    boolean required() default false;
 }

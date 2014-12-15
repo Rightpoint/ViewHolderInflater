@@ -6,6 +6,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 
@@ -49,10 +50,6 @@ public class MainActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
-    @VHMethod
-    void onCreateTextView(TextView textView) {
-
-    }
 
     @VHMethod
     void onClickTextView(TextView textView) {
@@ -82,5 +79,16 @@ public class MainActivity extends Activity {
     @VHMethod
     boolean onLongClickCheckBox() {
         return true;
+    }
+
+    @VHMethod
+    void onCreateTextView(TextView textView) {
+
+    }
+
+
+    @VHMethod
+    void onCreateCheckBox(CheckBox checkBox) {
+
     }
 }
