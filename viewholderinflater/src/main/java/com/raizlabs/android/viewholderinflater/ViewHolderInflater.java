@@ -12,12 +12,16 @@ import com.raizlabs.android.viewholderinflater.internal.ViewHolderAdapter;
 /**
  * Author: andrewgrosner
  * Description: Responsible for inflating views into types marked with {@link com.raizlabs.android.viewholderinflater.core.VHInflatable}
- * and including each {@link com.raizlabs.android.viewholderinflater.core.VHView} definition.
+ * and including each {@link com.raizlabs.android.viewholderinflater.core.VHView} definition. Also connects views to
+ * {@link com.raizlabs.android.viewholderinflater.core.VHMethod} within {@link com.raizlabs.android.viewholderinflater.core.VHMethodInflatable} definition.
  */
 public class ViewHolderInflater {
 
     private static ViewHolderAdapter viewHolderAdapter;
 
+    /**
+     * @return The shared adapter that is created during compile time.
+     */
     public static ViewHolderAdapter getViewHolderAdapter() {
         if (viewHolderAdapter == null) {
             try {
@@ -123,6 +127,12 @@ public class ViewHolderInflater {
         getMethodInflatableDefinition(methodInflatable.getClass()).connect(view, methodInflatable);
     }
 
+    /**
+     * @param inflatableClass The class that has the {@link com.raizlabs.android.viewholderinflater.core.VHInflatable} annotation.
+     * @return The definition defining how to inflate views into the specified class.
+     * @throws java.lang.RuntimeException if no {@link com.raizlabs.android.viewholderinflater.internal.VHInflatableDefinition}
+     * was found. Try adding a {@link com.raizlabs.android.viewholderinflater.core.VHInflatable} to the class definition.
+     */
     public static VHInflatableDefinition getInflatableDefinition(Class<?> inflatableClass) {
         VHInflatableDefinition vhInflatableDefinition = getViewHolderAdapter().getVHInflatableDefinition(inflatableClass);
         if (vhInflatableDefinition == null) {
@@ -132,6 +142,12 @@ public class ViewHolderInflater {
         return vhInflatableDefinition;
     }
 
+    /**
+     * @param methodInflatableClass The class that has the {@link com.raizlabs.android.viewholderinflater.core.VHMethodInflatable} annotation.
+     * @return The definition on how to connect methods from the class to view actions.
+     * @throws java.lang.RuntimeException if no {@link com.raizlabs.android.viewholderinflater.internal.VHMethodInflatableDefinition}
+     * was found. Try adding a {@link com.raizlabs.android.viewholderinflater.core.VHMethodInflatable} to the class definition.
+     */
     public static VHMethodInflatableDefinition getMethodInflatableDefinition(Class<?> methodInflatableClass) {
         VHMethodInflatableDefinition vhMethodInflatableDefinition = getViewHolderAdapter().getVHMethodInflatableDefinition(methodInflatableClass);
         if (vhMethodInflatableDefinition == null) {
