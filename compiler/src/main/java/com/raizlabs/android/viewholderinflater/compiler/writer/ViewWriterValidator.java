@@ -4,8 +4,8 @@ import com.raizlabs.android.viewholderinflater.compiler.VHManager;
 
 /**
  * Author: andrewgrosner
- * Contributors: { }
- * Description:
+ * Description: Validates a {@link com.raizlabs.android.viewholderinflater.compiler.writer.ViewWriter}
+ * to ensure the resource id is valid.
  */
 public class ViewWriterValidator implements Validator<ViewWriter> {
     @Override

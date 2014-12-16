@@ -10,7 +10,6 @@ import javax.lang.model.element.ExecutableElement;
 
 /**
  * Author: andrewgrosner
- * Contributors: { }
  * Description: Describes the default methods to replace method name, connect views to definitions. This
  * is internal usage only.
  */

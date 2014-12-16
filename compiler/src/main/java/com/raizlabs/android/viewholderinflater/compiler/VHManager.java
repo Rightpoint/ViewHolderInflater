@@ -24,8 +24,8 @@ import javax.tools.Diagnostic;
 
 /**
  * Author: andrewgrosner
- * Contributors: { }
- * Description:
+ * Description: Holds onto created definitions, writes the ViewHolderAdapter that the inflater uses,
+ * and wraps around some {@link javax.annotation.processing.ProcessingEnvironment} methods.
  */
 public class VHManager {
 
@@ -73,6 +73,12 @@ public class VHManager {
         return (mInflatableNameList.get(inflatableName) != null && mInflatableNameList.get(inflatableName).contains(viewName));
     }
 
+    /**
+     * Loops through all {@link com.raizlabs.android.viewholderinflater.compiler.handler.Handler},
+     * and at the end of processing, it creates the ViewHolderAdapter$HolderAdapter to interface between
+     * the ViewHolderInflater and the generated code from here.
+     * @param roundEnv
+     */
     public void handle(RoundEnvironment roundEnv) {
         for (Handler handler : mHandlers) {
             handler.handle(this, roundEnv);
