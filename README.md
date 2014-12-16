@@ -140,8 +140,15 @@ the same rules as ```@VHMethod``` for method prefixing, however the end chunk af
 it out enables the class that the method is in to implement the intended interface anyways. For example ```OnClickListener```:
 
 ```java
+@VHMethodInflatable
 public class MainActivity extends Activity implements OnClickListener {
 
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+
+        setContentView(R.layout.main);
+        ViewHolderInflater.connectViews(this, getWindow().getDecorView());
+    }
 
     @Override
     @VHMethodGroup({R.id.textView, R.id.checkBox})
