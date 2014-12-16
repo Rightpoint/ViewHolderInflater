@@ -6,10 +6,14 @@ import java.io.IOException;
 
 /**
  * Author: andrewgrosner
- * Contributors: { }
- * Description:
+ * Description: Basic interface to write to the {@link com.squareup.javawriter.JavaWriter}
  */
 public interface Writer {
 
+    /**
+     * Write to the writer
+     * @param javaWriter
+     * @throws IOException
+     */
     public void write(JavaWriter javaWriter) throws IOException;
 }

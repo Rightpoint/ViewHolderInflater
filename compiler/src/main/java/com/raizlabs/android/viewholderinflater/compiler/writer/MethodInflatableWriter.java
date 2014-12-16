@@ -19,13 +19,20 @@ import javax.lang.model.element.Modifier;
 
 /**
  * Author: andrewgrosner
- * Contributors: { }
- * Description:
+ * Description: Writes a {@link com.raizlabs.android.viewholderinflater.core.VHMethodInflatable} definition
+ * file.
  */
 public class MethodInflatableWriter extends BaseSourceWriter {
 
     List<MethodWriter> mMethodList = Lists.newArrayList();
 
+    /**
+     * Constructs new instance
+     *
+     * @param vhManager   The manager
+     * @param element     The element that has a {@link com.raizlabs.android.viewholderinflater.core.VHInflatable}
+     * @param packageName The package name to write to
+     */
     public MethodInflatableWriter(VHManager vhManager, Element element, String packageName) {
         super(vhManager, element, packageName);
         setDefinitionClassName("$MethodInflatableDefinition");
@@ -37,7 +44,7 @@ public class MethodInflatableWriter extends BaseSourceWriter {
             if (enclosedElement.getAnnotation(VHMethod.class) != null
                     || enclosedElement.getAnnotation(VHMethodGroup.class) != null) {
                 MethodWriter methodWriter = new MethodWriter(vhManager, enclosedElement, definitionClassName);
-                if(validator.validate(manager, methodWriter)) {
+                if (validator.validate(manager, methodWriter)) {
                     mMethodList.add(methodWriter);
                 }
             }
@@ -51,6 +58,7 @@ public class MethodInflatableWriter extends BaseSourceWriter {
         javaWriter.beginMethod("void", "connect", Sets.newHashSet(Modifier.PUBLIC, Modifier.FINAL),
                 "View", "view", "final " + elementClassName, "inflatable");
 
+        // order by making the onCreate methods called before all others
         PriorityQueue<MethodWriter> methodWriters = new PriorityQueue<>(new Comparator<MethodWriter>() {
             @Override
             public int compare(MethodWriter o1, MethodWriter o2) {

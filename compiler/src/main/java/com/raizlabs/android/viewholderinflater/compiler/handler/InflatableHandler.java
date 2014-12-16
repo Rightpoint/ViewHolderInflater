@@ -14,8 +14,8 @@ import javax.lang.model.element.Element;
 
 /**
  * Author: andrewgrosner
- * Contributors: { }
- * Description:
+ * Description: Handles writing of {@link com.raizlabs.android.viewholderinflater.core.VHInflatable}
+ * item definitions.
  */
 public class InflatableHandler extends BaseHandler<InflatableWriter> {
 

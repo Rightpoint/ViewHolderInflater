@@ -1,8 +1,8 @@
 package com.raizlabs.android.viewholderinflater.compiler.writer;
 
 import com.raizlabs.android.viewholderinflater.compiler.Classes;
-import com.raizlabs.android.viewholderinflater.core.VHInflatableViewHolder;
 import com.raizlabs.android.viewholderinflater.compiler.VHManager;
+import com.raizlabs.android.viewholderinflater.core.VHInflatableViewHolder;
 import com.raizlabs.android.viewholderinflater.core.VHView;
 import com.squareup.javawriter.JavaWriter;
 
@@ -12,23 +12,47 @@ import javax.lang.model.element.Element;
 
 /**
  * Author: andrewgrosner
- * Contributors: { }
- * Description:
+ * Description: Writes the definition/instantiation statemenet
+ * for a {@link com.raizlabs.android.viewholderinflater.core.VHView} or a {@link com.raizlabs.android.viewholderinflater.core.VHInflatableViewHolder}
  */
 public class ViewWriter implements Writer {
 
+    /**
+     * The element of the view
+     */
     Element element;
 
+    /**
+     * The name of the type that this element is
+     */
     String elementClassName;
 
+    /**
+     * Package name to write the view to
+     */
     String packageName;
 
+    /**
+     * The resource id of the {@link com.raizlabs.android.viewholderinflater.core.VHView#value()}
+     */
     int resourceId;
 
+    /**
+     * Whether this view is a {@link com.raizlabs.android.viewholderinflater.core.VHInflatableViewHolder}
+     */
     boolean isInflatableView = false;
 
+    /**
+     * If true, we will throw an exception if the view is not found.
+     */
     boolean required = false;
 
+    /**
+     * Constructs new instance of the writer.
+     *
+     * @param manager The manager
+     * @param element The element to use
+     */
     public ViewWriter(VHManager manager, Element element) {
         this.element = element;
         packageName = manager.getPackageName(element);
@@ -62,9 +86,9 @@ public class ViewWriter implements Writer {
         } else {
             statement += resourceId;
         }
-        if(!isInflatableView) {
-            statement+=",";
-            statement+=(required?"true" : "false");
+        if (!isInflatableView) {
+            statement += ",";
+            statement += (required ? "true" : "false");
         }
         statement += ")";
 

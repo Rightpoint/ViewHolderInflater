@@ -4,8 +4,8 @@ import com.raizlabs.android.viewholderinflater.compiler.VHManager;
 
 /**
  * Author: andrewgrosner
- * Contributors: { }
- * Description:
+ * Description: Ensures that the {@link com.raizlabs.android.viewholderinflater.compiler.writer.MethodInflatableWriter}
+ * contains at least 1 method.
  */
 public class MethodInflatableWriterValidator implements Validator<MethodInflatableWriter> {
     @Override
