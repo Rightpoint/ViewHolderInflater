@@ -28,7 +28,6 @@ public class MainActivity extends Activity {
         ViewHolderInflater.connectViews(this, contentView);
 
         ExampleRecyclerVH exampleRecyclerVH = new ExampleRecyclerVH(contentView);
-        ViewHolderInflater.inflate(contentView, exampleRecyclerVH);
     }
 
 
@@ -98,6 +97,11 @@ public class MainActivity extends Activity {
 
     @VHMethodGroup({R.id.textView, R.id.checkBox})
     void onCreate(View view) {
+
+    }
+
+    @VHMethodGroup({R.id.textView, R.id.checkBox})
+    void onClick(View view) {
 
     }
 }

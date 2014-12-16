@@ -5,6 +5,8 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
+import com.raizlabs.android.viewholderinflater.ViewHolderInflater;
+import com.raizlabs.android.viewholderinflater.core.VHInflatable;
 import com.raizlabs.android.viewholderinflater.core.VHView;
 
 /**
@@ -12,6 +14,7 @@ import com.raizlabs.android.viewholderinflater.core.VHView;
  * Contributors: { }
  * Description:
  */
+@VHInflatable
 public class ExampleRecyclerVH extends RecyclerView.ViewHolder {
 
     @VHView(R.id.textView)
@@ -22,5 +25,6 @@ public class ExampleRecyclerVH extends RecyclerView.ViewHolder {
 
     public ExampleRecyclerVH(View itemView) {
         super(itemView);
+        ViewHolderInflater.inflate(itemView, this);
     }
 }

@@ -2,6 +2,7 @@ package com.raizlabs.android.viewholderinflater.compiler.writer;
 
 import com.raizlabs.android.viewholderinflater.compiler.VHDefaultMethodList;
 import com.raizlabs.android.viewholderinflater.compiler.VHManager;
+import com.raizlabs.android.viewholderinflater.compiler.VHUtils;
 import com.raizlabs.android.viewholderinflater.core.VHMethod;
 import com.raizlabs.android.viewholderinflater.core.VHMethodGroup;
 import com.squareup.javawriter.JavaWriter;
@@ -75,9 +76,17 @@ public class MethodWriter implements Writer {
             // method group
             javaWriter.emitEmptyLine().emitSingleLineComment("Begin MethodGroup for %1s", viewElementName);
             javaWriter.emitStatement("View %1sview", viewElementName);
+            if(!methodName.equals(VHDefaultMethodList.ON_CREATE)) {
+                javaWriter.emitStatement("%1s %1s%1s = %1s", VHDefaultMethodList.getMethodCreation(methodName),
+                        viewElementName, methodName, VHDefaultMethodList.getMethodImpl(viewElementName, element, methodName));
+            }
             for(int resourceId: resourceIds) {
                 javaWriter.emitStatement("%1sview = %1s", viewElementName, getInstantiationStatement(viewElementName, resourceId));
                 javaWriter.beginControlFlow("if (%1sview != null) ", viewElementName);
+
+
+                VHDefaultMethodList.writeSetterMethod(javaWriter, viewElementName + "view", element, methodName,
+                        viewElementName + methodName);
 
                 // TODO: connect each to method
                 //VHDefaultMethodList.writeDefaultMethodImpl(javaWriter, viewElementName + "view",

@@ -90,6 +90,66 @@ public class VHDefaultMethodList {
         }
     }
 
+    public static String getMethodImpl(String viewElementName, ExecutableElement executable, String methodName) throws IOException {
+        String methodImpl = "";
+        if(methodName.equals(ON_CLICK)) {
+            String methodStatement = VHUtils.getMethodStatement(executable, "v");
+            methodImpl = getOnClickMethod(methodStatement);
+        } else if(methodName.equals(ON_ITEM_CLICK)) {
+            String methodStatement = VHUtils.getMethodStatement(executable, "parent", "v", "position", "id");
+            methodImpl = getOnItemClickMethod(methodStatement);
+        } else if(methodName.equals(ON_CHECKED_CHANGED)) {
+            String methodStatement = VHUtils.getMethodStatement(executable, "buttonView", "isChecked");
+            methodImpl = getOnCheckedChangedMethod(methodStatement);
+        } else if(methodName.equals(ON_TOUCH)) {
+            String methodStatement = VHUtils.getMethodStatement(executable, "v", "event");
+            methodImpl = getOnTouchMethod(methodStatement);
+        } else if(methodName.equals(ON_LONG_CLICK)) {
+            String methodStatement = VHUtils.getMethodStatement(executable, "v");
+            methodImpl = getOnLongClickMethod(methodStatement);
+        } else if(methodName.equals(ON_CREATE)) {
+            methodImpl = VHUtils.getMethodStatement(executable, viewElementName);
+        }
+
+        return methodImpl;
+    }
+
+    public static String getMethodCreation(String methodName) throws IOException {
+        String methodImpl = "";
+        if(methodName.equals(ON_CLICK)) {
+            methodImpl = Classes.ON_CLICK_LISTENER;
+        } else if(methodName.equals(ON_ITEM_CLICK)) {
+            methodImpl = Classes.ON_ITEM_CLICK_LISTENER;
+        } else if(methodName.equals(ON_CHECKED_CHANGED)) {
+            methodImpl = Classes.ON_CHECKED_CHANGE_LISTENER;
+        } else if(methodName.equals(ON_TOUCH)) {
+            methodImpl = Classes.ON_TOUCH_LISTENER;
+        } else if(methodName.equals(ON_LONG_CLICK)) {
+            methodImpl = Classes.ON_LONG_CLICK_LISTENER;
+        }
+
+        return methodImpl;
+    }
+
+    public static void writeSetterMethod(JavaWriter javaWriter, String viewElementName, ExecutableElement executable,
+                                         String methodName, String variableMethod) throws IOException {
+        if(methodName.equals(ON_CLICK)) {
+            javaWriter.emitStatement(viewElementName + ".setOnClickListener(%1s)", variableMethod);
+        } else if(methodName.equals(ON_ITEM_CLICK)) {
+            javaWriter.emitStatement("((%1s)%1s).setOnItemClickListener(%1s)", Classes.ADAPTER_VIEW,
+                    viewElementName, variableMethod);
+        } else if(methodName.equals(ON_CHECKED_CHANGED)) {
+            javaWriter.emitStatement("((%1s)%1s).setOnCheckedChangeListener(%1s)", Classes.COMPOUND_BUTTON,
+                    viewElementName, variableMethod);
+        } else if(methodName.equals(ON_TOUCH)) {
+            javaWriter.emitStatement("%1s.setOnTouchListener(%1s)", viewElementName, variableMethod);
+        } else if(methodName.equals(ON_LONG_CLICK)) {
+            javaWriter.emitStatement("%1s.setOnLongClickListener(%1s)", viewElementName, variableMethod);
+        } else if(methodName.equals(ON_CREATE)) {
+            javaWriter.emitStatement("inflatable." + VHUtils.getMethodStatement(executable, viewElementName));
+        }
+    }
+
     public static String getOnClickMethod(String methodStatement) {
         return String.format("\nnew %1s() {" +
                 "\n\tpublic void onClick(View v) { " +
@@ -129,6 +189,6 @@ public class VHDefaultMethodList {
                 "\n\tpublic boolean onLongClick(View v) {" +
                 "\n\t\treturn %1s.%1s;" +
                 "\n\t}" +
-                "\n})", Classes.ON_LONG_CLICK_LISTENER, INFLATABLE_PARAM, methodStatement);
+                "\n}", Classes.ON_LONG_CLICK_LISTENER, INFLATABLE_PARAM, methodStatement);
     }
 }
