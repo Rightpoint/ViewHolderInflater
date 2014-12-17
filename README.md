@@ -8,8 +8,29 @@ features that make it amazingly easy to use.
 
 # Getting Started
 
-Coming Soon. For now, cloning the project from Github is a good start.
+Add the maven repo url to your buildscript in the top-level build.gradle:
 
+```groovy
+
+buildscript {
+  repositories {
+        maven { url "https://raw.github.com/Raizlabs/maven-releases/master/releases" }
+  }
+}
+
+```
+
+Add the library to the project-level build.gradle, using the [apt plugin](https://bitbucket.org/hvisser/android-apt):
+
+```groovy
+
+  dependencies {
+    apt 'com.raizlabs.android:ViewHolderInflater-Compiler:1.0.0'
+    compile 'com.raizlabs.android:ViewHolderInflater-Core:1.0.0'
+    compile 'com.raizlabs.android:ViewHolderInflater:1.0.0'
+  }
+
+```
 # How To Use
 
 
