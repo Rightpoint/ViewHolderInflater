@@ -24,7 +24,7 @@ public class VHUtils {
      */
     public static View findViewById(View parentView, int id, boolean required) {
         View child = parentView.findViewById(id);
-        if (required) {
+        if (required && child == null) {
             throw new VHViewNotFoundException("View with id: " + id + "was not found");
         }
         return child;

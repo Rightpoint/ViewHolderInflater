@@ -25,7 +25,7 @@ public class ViewHolderInflater {
     public static ViewHolderAdapter getViewHolderAdapter() {
         if (viewHolderAdapter == null) {
             try {
-                viewHolderAdapter = (ViewHolderAdapter) Class.forName("com.raizlabs.android.viewholderinflater.internal.ViewHolderAdapter$HolderAdapter").newInstance();
+                viewHolderAdapter = (ViewHolderAdapter) Class.forName("com.raizlabs.android.viewholderinflater.ViewHolderAdapter$HolderAdapter").newInstance();
             } catch (Throwable e) {
                 throw new RuntimeException(e);
             }

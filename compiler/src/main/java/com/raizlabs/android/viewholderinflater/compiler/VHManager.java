@@ -86,7 +86,7 @@ public class VHManager {
 
         if(roundEnv.processingOver()) {
             try {
-                JavaWriter javaWriter = new JavaWriter(getFiler().createSourceFile(Classes.INTERNAL_PACKAGE_NAME + ".ViewHolderAdapter$HolderAdapter").openWriter());
+                JavaWriter javaWriter = new JavaWriter(getFiler().createSourceFile(Classes.VH_PACKAGE_NAME + ".ViewHolderAdapter$HolderAdapter").openWriter());
                 javaWriter.emitPackage(Classes.VH_PACKAGE_NAME);
                 javaWriter.emitImports(Map.class.getCanonicalName(), HashMap.class.getCanonicalName(),
                         Classes.VH_ADAPTER, Classes.VH_INFLATABLE_DEFINITION, Classes.VH_METHOD_INFLATABLE_DEFINITION);
