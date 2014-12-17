@@ -38,4 +38,10 @@ public class Classes {
     public static final String MOTION_EVENT = "android.view.MotionEvent";
 
     public static final String ON_LONG_CLICK_LISTENER = VIEW + ".OnLongClickListener";
+
+    public static final String EXPANDABLE_LIST_VIEW = "android.widget.ExpandableListView";
+
+    public static final String ON_CHILD_CLICK_LISTENER = EXPANDABLE_LIST_VIEW + ".OnChildClickListener";
+
+    public static final String ON_GROUP_CLICK_LISTENER = EXPANDABLE_LIST_VIEW + ".OnGroupClickListener";
 }

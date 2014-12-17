@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.ExpandableListView;
 import android.widget.TextView;
 
 import com.raizlabs.android.viewholderinflater.ViewHolderInflater;
@@ -103,5 +104,15 @@ public class MainActivity extends Activity {
     @VHMethodGroup({R.id.textView, R.id.checkBox})
     void onClick(View view) {
 
+    }
+
+    @VHMethod
+    boolean onGroupClickExpandableListView(ExpandableListView expandableListView, View view, int groupPosition, long id) {
+        return true;
+    }
+
+    @VHMethod
+    boolean onChildClickExpandableListView(ExpandableListView expandableListView, View view, int groupPosition, int childPosition, long id) {
+        return true;
     }
 }

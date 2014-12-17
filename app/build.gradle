@@ -23,12 +23,16 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    packagingOptions {
+        exclude 'META-INF/services/javax.annotation.processing.Processor'
+    }
 }
 
 dependencies {
-    apt project(':compiler')
-    compile project(':core')
-    compile project(':viewholderinflater')
+    apt project(vhi_project_prefix + 'compiler')
+    compile project(vhi_project_prefix + 'core')
+    compile project(vhi_project_prefix + 'viewholderinflater')
 
     compile 'com.android.support:recyclerview-v7:21.0.0'
 }

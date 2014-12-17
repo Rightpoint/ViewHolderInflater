@@ -1,6 +1,7 @@
 package com.raizlabs.android.viewholderinflater.app;
 
 import android.widget.CheckBox;
+import android.widget.ExpandableListView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -23,4 +24,7 @@ public class SimpleInflatable {
 
     @VHView
     ListView listView;
+
+    @VHView
+    ExpandableListView expandableListView;
 }

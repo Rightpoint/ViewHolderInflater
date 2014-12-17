@@ -16,11 +16,19 @@
 
     <CheckBox
         android:id="@+id/checkBox"
+        android:layout_below="@id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
     <ListView
         android:id="@+id/listView"
+        android:layout_below="@id/checkBox"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    <ExpandableListView
+        android:id="@+id/expandableListView"
+        android:layout_below="@id/checkBox"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 </RelativeLayout>

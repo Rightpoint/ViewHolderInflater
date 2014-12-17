@@ -1,7 +1,9 @@
 apply plugin: 'java'
 
 dependencies {
-    compile project(':core')
+    compile project(vhi_project_prefix + 'core')
     compile 'com.squareup:javawriter:2.5.0'
     compile 'com.google.auto.service:auto-service:1.0+'
 }
+
+apply from: '../github_deploy.gradle'

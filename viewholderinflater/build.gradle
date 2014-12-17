@@ -24,5 +24,8 @@ android {
 }
 
 dependencies {
-    compile project(':core')
+    compile project(vhi_project_prefix + 'core')
 }
+
+
+apply from: '../github_deploy.gradle'
