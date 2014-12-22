@@ -1,3 +1,5 @@
+[![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-ViewHolderInflater-lightgrey.svg?style=flat)](https://android-arsenal.com/details/1/1257) [![Raizlabs Repository](http://img.shields.io/badge/Raizlabs%20Repository-1.0.0-blue.svg?style=flat)](https://github.com/Raizlabs/maven-releases)
+
 ViewHolderInflater
 ==================
 
@@ -20,14 +22,18 @@ buildscript {
 
 ```
 
-Add the library to the project-level build.gradle, using the [apt plugin](https://bitbucket.org/hvisser/android-apt):
+Add the library to the project-level build.gradle, using the [apt plugin](https://bitbucket.org/hvisser/android-apt)  and the 
+[AARLinkSources](https://github.com/xujiaao/AARLinkSources) plugin:
 
 ```groovy
 
   dependencies {
     apt 'com.raizlabs.android:ViewHolderInflater-Compiler:1.0.0'
+    aarLinkSources 'com.raizlabs.android:ViewHolderInflater-Compiler:1.0.0:sources@jar'
     compile 'com.raizlabs.android:ViewHolderInflater-Core:1.0.0'
+    aarLinkSources 'com.raizlabs.android:ViewHolderInflater-Core:1.0.0:sources@jar'
     compile 'com.raizlabs.android:ViewHolderInflater:1.0.0'
+    aarLinkSources 'com.raizlabs.android:ViewHolderInflater:1.0.0:sources@jar'
   }
 
 ```
