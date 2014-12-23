@@ -16,7 +16,7 @@ import javax.lang.model.element.ExecutableElement;
  * Description: Writes the Method definition for a {@link com.raizlabs.android.viewholderinflater.core.VHMethod}
  * or {@link com.raizlabs.android.viewholderinflater.core.VHMethodGroup}
  */
-public class MethodWriter implements Writer {
+public class MethodWriter {
 
     /**
      * The method itself
@@ -92,20 +92,25 @@ public class MethodWriter implements Writer {
         methodName = VHDefaultMethodList.getMethodName(element.getSimpleName().toString());
     }
 
-    @Override
-    public void write(JavaWriter javaWriter) throws IOException {
+    public void write(JavaWriter javaWriter, boolean beginControl, boolean endControl) throws IOException {
         if (!isMethodGroup) {
             if (!manager.hasInflatableName(methodInflatableName, viewElementName)) {
                 javaWriter.emitStatement("View %1sview = %1s", viewElementName, getInstantiationStatement(viewElementName, resourceId));
                 manager.addInflatableName(methodInflatableName, viewElementName);
+
             }
 
-            javaWriter.beginControlFlow("if (%1sview != null) ", viewElementName);
+
+            if(beginControl) {
+                javaWriter.beginControlFlow("if (%1sview != null) ", viewElementName);
+            }
 
             VHDefaultMethodList.writeDefaultMethodImpl(javaWriter, viewElementName + "view",
                     element, methodName);
 
-            javaWriter.endControlFlow();
+            if(endControl) {
+                javaWriter.endControlFlow();
+            }
         } else {
             // method group
             javaWriter.emitEmptyLine().emitSingleLineComment("Begin MethodGroup for %1s", viewElementName);

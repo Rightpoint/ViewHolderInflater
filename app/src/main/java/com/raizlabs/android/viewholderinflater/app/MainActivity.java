@@ -55,7 +55,7 @@ public class MainActivity extends Activity {
     }
 
 
-    @VHMethod
+    @VHMethod(R.id.textView)
     void onClickTextView(TextView textView) {
 
     }

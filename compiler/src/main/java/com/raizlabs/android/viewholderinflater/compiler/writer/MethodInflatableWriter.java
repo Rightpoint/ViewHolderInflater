@@ -1,6 +1,7 @@
 package com.raizlabs.android.viewholderinflater.compiler.writer;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.raizlabs.android.viewholderinflater.compiler.Classes;
 import com.raizlabs.android.viewholderinflater.compiler.VHDefaultMethodList;
@@ -10,9 +11,10 @@ import com.raizlabs.android.viewholderinflater.core.VHMethodGroup;
 import com.squareup.javawriter.JavaWriter;
 
 import java.io.IOException;
-import java.util.Comparator;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.PriorityQueue;
+import java.util.Map;
+import java.util.Set;
 
 import javax.lang.model.element.Element;
 import javax.lang.model.element.Modifier;
@@ -24,7 +26,9 @@ import javax.lang.model.element.Modifier;
  */
 public class MethodInflatableWriter extends BaseSourceWriter {
 
-    List<MethodWriter> mMethodList = Lists.newArrayList();
+    Map<String, List<MethodWriter>> mMethodMap = Maps.newHashMap();
+
+    List<MethodWriter> mOnCreateList = Lists.newArrayList();
 
     /**
      * Constructs new instance
@@ -45,7 +49,16 @@ public class MethodInflatableWriter extends BaseSourceWriter {
                     || enclosedElement.getAnnotation(VHMethodGroup.class) != null) {
                 MethodWriter methodWriter = new MethodWriter(vhManager, enclosedElement, definitionClassName);
                 if (validator.validate(manager, methodWriter)) {
-                    mMethodList.add(methodWriter);
+                    if(methodWriter.methodName.equals(VHDefaultMethodList.ON_CREATE)) {
+                        mOnCreateList.add(methodWriter);
+                    } else {
+                        List<MethodWriter> methodList = mMethodMap.get(methodWriter.viewElementName);
+                        if (methodList == null) {
+                            methodList = new ArrayList<>();
+                            mMethodMap.put(methodWriter.viewElementName, methodList);
+                        }
+                        methodList.add(methodWriter);
+                    }
                 }
             }
         }
@@ -58,19 +71,17 @@ public class MethodInflatableWriter extends BaseSourceWriter {
         javaWriter.beginMethod("void", "connect", Sets.newHashSet(Modifier.PUBLIC, Modifier.FINAL),
                 "View", "view", "final " + elementClassName, "inflatable");
 
-        // order by making the onCreate methods called before all others
-        PriorityQueue<MethodWriter> methodWriters = new PriorityQueue<>(new Comparator<MethodWriter>() {
-            @Override
-            public int compare(MethodWriter o1, MethodWriter o2) {
-                boolean is1Oncreate = o1.methodName.equals(VHDefaultMethodList.ON_CREATE);
-                boolean is2Oncreate = o2.methodName.equals(VHDefaultMethodList.ON_CREATE);
-                return Boolean.compare(is2Oncreate, is1Oncreate);
-            }
-        });
+        for (MethodWriter methodWriter : mOnCreateList) {
+            methodWriter.write(javaWriter, true, true);
+        }
 
-        methodWriters.addAll(mMethodList);
-        for (MethodWriter methodWriter : methodWriters) {
-            methodWriter.write(javaWriter);
+        Set<String> methodSet = mMethodMap.keySet();
+        for(String method: methodSet) {
+            List<MethodWriter> methodWriters = mMethodMap.get(method);
+            for(int i = 0; i < methodWriters.size(); i++) {
+                MethodWriter methodWriter = methodWriters.get(i);
+                methodWriter.write(javaWriter, i==0, i == methodWriters.size()-1);
+            }
         }
 
         javaWriter.endMethod();
