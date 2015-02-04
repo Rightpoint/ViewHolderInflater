@@ -29,7 +29,6 @@ Add the library to the project-level build.gradle, using the [apt plugin](https:
 
   dependencies {
     apt 'com.raizlabs.android:ViewHolderInflater-Compiler:1.0.1'
-    aarLinkSources 'com.raizlabs.android:ViewHolderInflater-Compiler:1.0.1:sources@jar'
     compile 'com.raizlabs.android:ViewHolderInflater-Core:1.0.1'
     aarLinkSources 'com.raizlabs.android:ViewHolderInflater-Core:1.0.1:sources@jar'
     compile 'com.raizlabs.android:ViewHolderInflater:1.0.1'
