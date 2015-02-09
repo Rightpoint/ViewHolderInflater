@@ -27,5 +27,5 @@ dependencies {
     compile project(vhi_project_prefix + 'core')
 }
 
-
-apply from: '../github_deploy.gradle'
+apply from: 'https://raw.githubusercontent.com/Raizlabs/maven-releases/master/android_artifacts.gradle'
+apply from: 'https://raw.githubusercontent.com/Raizlabs/maven-releases/master/maven_push.gradle'
