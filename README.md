@@ -17,6 +17,7 @@ Add the maven repo url to your root build.gradle in the ```buildscript{}``` and 
     repositories {
         maven { url "https://raw.github.com/Raizlabs/maven-releases/master/releases" }
     }
+    classpath 'com.neenbedankt.gradle.plugins:android-apt:1.4'
     classpath 'com.raizlabs:Griddle:1.0.0'
   }
   
@@ -33,6 +34,9 @@ Add the library to the project-level build.gradle, using the [apt plugin](https:
 [Griddle](https://github.com/Raizlabs/Griddle) plugin:
 
 ```groovy
+
+  apply plugin: 'com.neenbedankt.android-apt'
+  apply plugin: 'com.raizlabs.griddle'
 
   dependencies {
     apt 'com.raizlabs.android:ViewHolderInflater-Compiler:1.0.1'
