@@ -10,29 +10,33 @@ features that make it amazingly easy to use.
 
 # Getting Started
 
-Add the maven repo url to your buildscript in the top-level build.gradle:
+Add the maven repo url to your root build.gradle in the ```buildscript{}``` and ```allProjects{}``` blocks:
 
 ```groovy
-
-buildscript {
-  repositories {
+  buildscript {
+    repositories {
         maven { url "https://raw.github.com/Raizlabs/maven-releases/master/releases" }
+    }
+    classpath 'com.raizlabs:Griddle:1.0.0'
   }
-}
+  
+  allprojects {
+    repositories {
+        maven { url "https://raw.github.com/Raizlabs/maven-releases/master/releases" }
+    }
+  }
+
 
 ```
 
-Add the library to the project-level build.gradle, using the [apt plugin](https://bitbucket.org/hvisser/android-apt)  and the 
-[AARLinkSources](https://github.com/xujiaao/AARLinkSources) plugin:
+Add the library to the project-level build.gradle, using the [apt plugin](https://bitbucket.org/hvisser/android-apt) and the 
+[Griddle](https://github.com/Raizlabs/Griddle) plugin:
 
 ```groovy
 
   dependencies {
     apt 'com.raizlabs.android:ViewHolderInflater-Compiler:1.0.1'
-    compile 'com.raizlabs.android:ViewHolderInflater-Core:1.0.1'
-    aarLinkSources 'com.raizlabs.android:ViewHolderInflater-Core:1.0.1:sources@jar'
-    compile 'com.raizlabs.android:ViewHolderInflater:1.0.1'
-    aarLinkSources 'com.raizlabs.android:ViewHolderInflater:1.0.1:sources@jar'
+    mod "com.raizlabs.android:{ViewHolderInflater-Core, ViewHolderInflater}:1.0.1"
   }
 
 ```
