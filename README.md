@@ -18,7 +18,7 @@ Add the maven repo url to your root build.gradle in the ```buildscript{}``` and 
         maven { url "https://raw.github.com/Raizlabs/maven-releases/master/releases" }
     }
     classpath 'com.neenbedankt.gradle.plugins:android-apt:1.4'
-    classpath 'com.raizlabs:Griddle:1.0.0'
+    classpath 'com.raizlabs:Griddle:1.0.3'
   }
   
   allprojects {
