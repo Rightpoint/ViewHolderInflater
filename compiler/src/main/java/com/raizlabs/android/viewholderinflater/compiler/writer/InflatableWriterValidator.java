@@ -12,10 +12,7 @@ public class InflatableWriterValidator implements Validator<InflatableWriter> {
     @Override
     public boolean validate(VHManager vhManager, InflatableWriter inflatableWriter) {
         boolean isValid = true;
-        if (inflatableWriter.mViews.isEmpty()) {
-            vhManager.logError("%1s must contain at least one @VHView or @VHInflatableViewHolder", inflatableWriter.elementClassName);
-            isValid = false;
-        }
+
         return isValid;
     }
 }

@@ -12,10 +12,6 @@ public class MethodInflatableWriterValidator implements Validator<MethodInflatab
     public boolean validate(VHManager vhManager, MethodInflatableWriter methodInflatableWriter) {
         boolean valid = true;
 
-        if(methodInflatableWriter.mMethodMap.isEmpty() && methodInflatableWriter.mOnCreateList.isEmpty()) {
-            vhManager.logError("%1s must contain at least one @VHMethod", methodInflatableWriter.elementClassName);
-            valid = false;
-        }
 
         return valid;
     }
