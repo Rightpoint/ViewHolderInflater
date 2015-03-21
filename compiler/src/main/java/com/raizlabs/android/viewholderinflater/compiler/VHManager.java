@@ -20,6 +20,7 @@ import javax.annotation.processing.ProcessingEnvironment;
 import javax.annotation.processing.RoundEnvironment;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.Modifier;
+import javax.lang.model.util.Elements;
 import javax.tools.Diagnostic;
 
 /**
@@ -150,5 +151,9 @@ public class VHManager {
 
     public void logError(String s, Object...args) {
         mEnvironment.getMessager().printMessage(Diagnostic.Kind.ERROR, String.format(s, args));
+    }
+
+    public Elements getElements() {
+        return mEnvironment.getElementUtils();
     }
 }

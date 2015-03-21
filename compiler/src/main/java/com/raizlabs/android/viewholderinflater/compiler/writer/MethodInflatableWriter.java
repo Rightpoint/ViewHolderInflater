@@ -18,6 +18,7 @@ import java.util.Set;
 
 import javax.lang.model.element.Element;
 import javax.lang.model.element.Modifier;
+import javax.lang.model.element.TypeElement;
 
 /**
  * Author: andrewgrosner
@@ -42,7 +43,7 @@ public class MethodInflatableWriter extends BaseSourceWriter {
         setDefinitionClassName("$MethodInflatableDefinition");
 
 
-        List<? extends Element> enclosed = element.getEnclosedElements();
+        List<? extends Element> enclosed = vhManager.getElements().getAllMembers(((TypeElement) element));
         MethodWriterValidator validator = new MethodWriterValidator();
         for (Element enclosedElement : enclosed) {
             if (enclosedElement.getAnnotation(VHMethod.class) != null

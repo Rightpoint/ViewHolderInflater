@@ -15,6 +15,7 @@ import javax.lang.model.element.Element;
 import javax.lang.model.element.ElementKind;
 import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.Modifier;
+import javax.lang.model.element.TypeElement;
 
 /**
  * Author: andrewgrosner
@@ -30,7 +31,7 @@ public class InflatableWriter extends BaseSourceWriter {
         super(vhManager, element, packageName);
         setDefinitionClassName("$InflatableDefinition");
 
-        List<? extends Element> elements = element.getEnclosedElements();
+        List<? extends Element> elements = vhManager.getElements().getAllMembers(((TypeElement) element));
         ViewWriterValidator viewWriterValidator = new ViewWriterValidator();
         for (Element innerElement : elements) {
             if (innerElement.getAnnotation(VHView.class) != null
