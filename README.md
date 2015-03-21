@@ -10,15 +10,23 @@ features that make it amazingly easy to use.
 
 # Getting Started
 
-Add the maven repo url to your buildscript in the top-level build.gradle:
+Add the maven repo url to your root build.gradle in the ```buildscript{}``` and ```allProjects{}``` blocks:
 
 ```groovy
-
-buildscript {
-  repositories {
+  buildscript {
+    repositories {
         maven { url "https://raw.github.com/Raizlabs/maven-releases/master/releases" }
+    }
+    classpath 'com.neenbedankt.gradle.plugins:android-apt:1.4'
+    classpath 'com.raizlabs:Griddle:1.0.3'
   }
-}
+
+  allprojects {
+    repositories {
+        maven { url "https://raw.github.com/Raizlabs/maven-releases/master/releases" }
+    }
+  }
+
 
 ```
 
@@ -27,12 +35,23 @@ Add the library to the project-level build.gradle, using the [apt plugin](https:
 
 ```groovy
 
+  apply plugin: 'com.neenbedankt.android-apt'
+  apply plugin: 'com.raizlabs.griddle'
+
   dependencies {
     apt 'com.raizlabs.android:ViewHolderInflater-Compiler:1.0.2'
     mod 'com.raizlabs.android:{ViewHolderInflater, ViewHolderInflater-Core}:1.0.2'
   }
 
 ```
+
+# Changelog
+
+## 1.0.1
+
+  1. Generated code is now smarter about reusing found views.
+  2. Also easier to read by grouping view methods together
+
 # How To Use
 
 
