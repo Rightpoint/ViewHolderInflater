@@ -1,3 +1,7 @@
+## Important Notice
+This repository is slated for deletion, perhaps as soon as June 1, 2016.  Please find other solutions.  
+There will be no future updates or support. 
+
 [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-ViewHolderInflater-lightgrey.svg?style=flat)](https://android-arsenal.com/details/1/1257) [![Raizlabs Repository](http://img.shields.io/badge/Raizlabs%20Repository-1.0.2-blue.svg?style=flat)](https://github.com/Raizlabs/maven-releases)
 
 ViewHolderInflater
